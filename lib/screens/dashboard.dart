@@ -17,8 +17,12 @@ class _DashboardState extends State<Dashboard> {
 
   late String userId;
 
-  TextEditingController _todoTitle = TextEditingController();
-  TextEditingController _todoDesc = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  TextEditingController eventDateController = TextEditingController();
+  TextEditingController picController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
 
   List? items;
 
@@ -36,12 +40,18 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void addTodo() async {
-    if (_todoTitle.text.isNotEmpty && _todoDesc.text.isNotEmpty) {
+
+    if (nameController.text.isNotEmpty && descController.text.isNotEmpty
+        && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+        && priceController.text.isNotEmpty) {
 
       var jsonObj = {
         "userId" : userId,
-        "title" : _todoTitle.text,
-        "desc" : _todoDesc.text
+        "name" : nameController.text,
+        "desc" : descController.text,
+        "eventDate" : eventDateController.text,
+        "pic" : picController.text,
+        "price" : priceController.text,
       };
 
       var response = await http.post(Uri.parse(createEvent),
@@ -51,15 +61,19 @@ class _DashboardState extends State<Dashboard> {
 
       var jsonResponse = jsonDecode(response.body);
 
-      print(jsonResponse['status']);
+      if (jsonResponse['status']) {
+        nameController.clear();
+        descController.clear();
+        eventDateController.clear();
+        picController.clear();
+        priceController.clear();
 
-      if(jsonResponse['status']){
-        _todoDesc.clear();
-        _todoTitle.clear();
         Navigator.pop(context);
         getTodoList(userId);
-      }else{
-        print("SomeThing Went Wrong");
+      }
+
+      else {
+        dashboardError();
       }
     }
   }
@@ -172,7 +186,7 @@ class _DashboardState extends State<Dashboard> {
       floatingActionButton: FloatingActionButton(
         onPressed: () =>_displayTextInputDialog(context) ,
         child: Icon(Icons.add),
-        tooltip: 'Add-ToDo',
+        tooltip: 'Add-Event',
       ),
     );
   }
@@ -182,23 +196,25 @@ class _DashboardState extends State<Dashboard> {
         context: context,
         builder: (context) {
           return AlertDialog(
-              title: Text('Add To-Do'),
+              title: Text('Add Event'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextField(
-                    controller: _todoTitle,
+                  TextFormField(
+                    controller: nameController,
                     keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 20),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: "Title",
+                        hintText: "Name",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))),
                   ).p4().px8(),
-                  TextField(
-                    controller: _todoDesc,
+                  TextFormField(
+                    controller: descController,
                     keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 20),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -206,12 +222,51 @@ class _DashboardState extends State<Dashboard> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))),
                   ).p4().px8(),
-                  ElevatedButton(onPressed: (){
+                  TextFormField(
+                    controller: eventDateController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 20),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Event Date",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                  ).p4().px8(),
+                  TextFormField(
+                    controller: picController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 20),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Picture",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                  ).p4().px8(),
+                  TextFormField(
+                    controller: priceController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 20),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Price",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                  ).p4().px8(),
+
+                  ElevatedButton(onPressed: () {
                     addTodo();
-                  }, child: Text("Add"))
+                  }, child: Text("Add", style: TextStyle(fontSize: 25)))
                 ],
               )
           );
         });
   }
 }
+
+void dashboardError() => Fluttertoast.showToast(
+  msg: "Error",
+  fontSize: 20,
+);
