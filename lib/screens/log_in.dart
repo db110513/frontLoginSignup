@@ -7,6 +7,8 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+
+  // used to get data from the text fields
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   
@@ -23,6 +25,7 @@ class _LogInState extends State<LogIn> {
   }
 
   void initSharedPref() async {
+    // prefs > store info
     prefs = await SharedPreferences.getInstance();
   }
 
@@ -38,21 +41,21 @@ class _LogInState extends State<LogIn> {
 
       // Uri.parse(login) > login = url + login
       var response = await http.post(Uri.parse(login),
-          headers: {"Content-Type":"application/json"},
+          headers: {"Content-Type" : "application/json"},
           body: jsonEncode(reqBody)
       );
 
       var jsonResponse = jsonDecode(response.body);
 
-      // if (status == true) -> process gone ok
       if (jsonResponse['status']) {
-        var myToken = jsonResponse['token'];
-        prefs.setString('token', myToken);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(token: myToken)));
+        // token > user data from the backend
+        var token = jsonResponse['token'];
+        prefs.setString('token', token);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(token: token)));
       }
 
-      else{
-        print('Something went wrong');
+      else {
+        loginError();
       }
 
     }
@@ -101,7 +104,6 @@ class _LogInState extends State<LogIn> {
                       hintText: "Email",
                       errorStyle: TextStyle(color: Colors.blue[600],
                           fontSize: 20, fontWeight: FontWeight.bold),
-                      errorText: noData ? "Enter Info" : null,
                       hintStyle: TextStyle(fontSize: 23),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
@@ -118,7 +120,6 @@ class _LogInState extends State<LogIn> {
                         hintStyle: TextStyle(fontSize: 23),
                         errorStyle: TextStyle(color: Colors.blue[600],
                             fontSize: 20, fontWeight: FontWeight.bold),
-                        errorText: noData ? "Enter Info" : null,
                         border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))),
                   ).p4().px24(),
@@ -151,3 +152,8 @@ class _LogInState extends State<LogIn> {
     );
   }
 }
+
+void loginError() => Fluttertoast.showToast(
+  msg: "Error",
+  fontSize: 20,
+);

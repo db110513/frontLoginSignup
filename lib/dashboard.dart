@@ -1,10 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:velocity_x/velocity_x.dart';
+import './screens/exports.dart';
 import 'package:http/http.dart' as http;
-import 'config.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class Dashboard extends StatefulWidget {
@@ -80,18 +77,19 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  void deleteItem(id) async{
+  void deleteItem(id) async {
     var regBody = {
-      "id":id
+      "id" : id
     };
 
     var response = await http.post(Uri.parse(deleteTodo),
-        headers: {"Content-Type":"application/json"},
+        headers: {"Content-Type" : "application/json"},
         body: jsonEncode(regBody)
     );
 
     var jsonResponse = jsonDecode(response.body);
-    if(jsonResponse['status']){
+
+    if (jsonResponse['status']) {
       getTodoList(userId);
     }
 

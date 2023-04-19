@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:frontend/screens/sign_up.dart';
-import 'dashboard.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/log_in.dart';
+import 'screens/exports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +10,7 @@ class App extends StatelessWidget {
 
   final token;
 
-  const App({@required this.token, Key? key}): super(key: key);
+  const App({@required this.token, Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
 
