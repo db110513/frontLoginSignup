@@ -15,7 +15,7 @@ class _SignUpState extends State<SignUp> {
   bool noEmail = false;
   bool noPass = false;
 
-  void registerUser() async {
+  void signUp() async {
 
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
 
@@ -32,14 +32,13 @@ class _SignUpState extends State<SignUp> {
       );
 
       var backResponse = jsonDecode(response.body);
-      print(backResponse['status']);
 
       if (backResponse['status']) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LogIn()));
+        Navigator.pushNamed(context, '/init');
       }
 
-      else{
-        print("Error When Connecting To Server");
+      else {
+        loginError();
       }
     }
 
@@ -111,11 +110,11 @@ class _SignUpState extends State<SignUp> {
                     GestureDetector(
                       onTap: () => {
                         if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-                          registerUser(),
+                          signUp(),
                           toastUserCreated()
                         }
                         else {
-                          toastError()
+                          toastDataError()
                         }
                       },
                       child: VxBox(child: "Sign Up".text.white.size(25).makeCentered()
@@ -125,7 +124,7 @@ class _SignUpState extends State<SignUp> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      print("Sign In");
+                      toastLoggedIn();
                       Navigator.push(context, MaterialPageRoute(builder: (context) => LogIn()));
                     },
                     child: HStack([
@@ -156,30 +155,17 @@ void toastUserCreated() => Fluttertoast.showToast(
   fontSize: 20,
 );
 
-void toastError() => Fluttertoast.showToast(
+void toastDataError() => Fluttertoast.showToast(
   msg: "Insert data",
   fontSize: 20,
 );
 
-String generatePassword() {
-  String upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  String lower = 'abcdefghijklmnopqrstuvwxyz';
-  String numbers = '1234567890';
-  String symbols = '!@#\$%^&*()<>,./';
+void signupError() => Fluttertoast.showToast(
+  msg: "Error",
+  fontSize: 20,
+);
 
-  String password = '';
-
-  int passLength = 20;
-
-  String seed = upper + lower + numbers + symbols;
-
-  List<String> list = seed.split('').toList();
-
-  Random rand = Random();
-
-  for (int i = 0; i < passLength; i++) {
-    int index = rand.nextInt(list.length);
-    password += list[index];
-  }
-  return password;
-}
+void toastLoggedIn() => Fluttertoast.showToast(
+  msg: "Logged In",
+  fontSize: 20,
+);
