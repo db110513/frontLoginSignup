@@ -1,13 +1,5 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:frontend/applogo.dart';
-import 'log_in.dart';
+import 'exports.dart';
 import 'package:http/http.dart' as http;
-import 'package:frontend/config.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUp extends StatefulWidget {
 
