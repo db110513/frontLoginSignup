@@ -73,7 +73,6 @@ class _DashboardState extends State<Dashboard> {
     items = jsonResponse['success'];
 
     setState(() {
-
     });
   }
 
