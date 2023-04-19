@@ -34,7 +34,8 @@ class _SignUpState extends State<SignUp> {
       var backResponse = jsonDecode(response.body);
 
       if (backResponse['status']) {
-        Navigator.pushNamed(context, '/init');
+        toastUserCreated();
+        Navigator.pushNamed(context, '/logIn');
       }
 
       else {

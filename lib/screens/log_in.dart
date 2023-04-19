@@ -51,6 +51,7 @@ class _LogInState extends State<LogIn> {
         // token > user data from the backend
         var token = jsonResponse['token'];
         prefs.setString('token', token);
+
         Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(token: token)));
       }
 

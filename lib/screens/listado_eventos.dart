@@ -1,13 +1,13 @@
 import 'exports.dart';
 import 'package:http/http.dart' as http;
 
-class ListadoUsuarios extends StatefulWidget {
-  const ListadoUsuarios({Key? key}) : super(key: key);
+class ListadoEventos extends StatefulWidget {
+  const ListadoEventos({Key? key}) : super(key: key);
 
-  State<ListadoUsuarios> createState() => _ListadoUsuariosState();
+  State<ListadoEventos> createState() => _ListadoEventosState();
 }
 
-class _ListadoUsuariosState extends State<ListadoUsuarios> {
+class _ListadoEventosState extends State<ListadoEventos> {
 
   List<dynamic> usuarios = [];
 
