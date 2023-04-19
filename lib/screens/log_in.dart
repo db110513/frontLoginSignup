@@ -17,7 +17,7 @@ class _LogInState extends State<LogIn> {
   bool noPass = false;
 
   // SharedPreferences > storing data
-  late SharedPreferences prefs;
+  late SharedPreferences preferences;
 
   void initState() {
     super.initState();
@@ -25,8 +25,8 @@ class _LogInState extends State<LogIn> {
   }
 
   void initSharedPref() async {
-    // prefs > store info
-    prefs = await SharedPreferences.getInstance();
+    // prefs > store data
+    preferences = await SharedPreferences.getInstance();
   }
 
   void loginUser() async {
@@ -50,7 +50,8 @@ class _LogInState extends State<LogIn> {
       if (jsonResponse['status']) {
         // token > user data from the backend
         var token = jsonResponse['token'];
-        prefs.setString('token', token);
+        // preferences.setString > store string data into the local storage (map(key:value))
+        preferences.setString('token', token);
 
         Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(token: token)));
       }

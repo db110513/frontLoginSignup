@@ -2,8 +2,10 @@ import 'screens/exports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  runApp(App(token: prefs.getString('token')));
+  // SharedPreferences > store a small amount of data in your local storage
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  // preferences.getString > get data stored
+  runApp(App(token: preferences.getString('token')));
 }
 
 class App extends StatelessWidget {
@@ -34,6 +36,7 @@ class App extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
 
+        // Check if has expired && user has to login again
         home: (token != null && JwtDecoder.isExpired(token) == false ) ?
           Dashboard(token: token) : LogIn()
     );

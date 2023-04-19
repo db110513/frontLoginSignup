@@ -1,10 +1,9 @@
-import 'dart:convert';
-
-import './screens/exports.dart';
+import 'exports.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class Dashboard extends StatefulWidget {
+
   final token;
 
   const Dashboard({@required this.token, Key? key}) : super(key: key);
@@ -13,6 +12,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+
+  late String email;
 
   late String userId;
 
@@ -25,10 +26,12 @@ class _DashboardState extends State<Dashboard> {
 
     super.initState();
 
-    Map<String,dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    Map <String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
 
-    userId = jwtDecodedToken['_id'];
-    getTodoList(userId);
+    email = jwtDecodedToken['email'];
+
+    // userId = jwtDecodedToken['_id'];
+    // getTodoList(userId);
 
   }
 
@@ -41,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
         "desc" : _todoDesc.text
       };
 
-      var response = await http.post(Uri.parse(addtodo),
+      var response = await http.post(Uri.parse(createEvent),
           headers: {"Content-Type":"application/json"},
           body: jsonEncode(jsonObj)
       );
@@ -66,7 +69,7 @@ class _DashboardState extends State<Dashboard> {
       "userId":userId
     };
 
-    var response = await http.post(Uri.parse(getToDoList),
+    var response = await http.post(Uri.parse(getEventList),
         headers: {"Content-Type":"application/json"},
         body: jsonEncode(regBody)
     );
@@ -83,7 +86,7 @@ class _DashboardState extends State<Dashboard> {
       "id" : id
     };
 
-    var response = await http.post(Uri.parse(deleteTodo),
+    var response = await http.post(Uri.parse(deleteEvent),
         headers: {"Content-Type" : "application/json"},
         body: jsonEncode(regBody)
     );
@@ -97,6 +100,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Column(
@@ -104,16 +108,19 @@ class _DashboardState extends State<Dashboard> {
         children: [
           Container(
             padding: EdgeInsets.only(top: 60.0,left: 30.0,right: 30.0,bottom: 30.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(child: Icon(Icons.list,size: 30.0,),backgroundColor: Colors.white,radius: 30.0,),
-                SizedBox(height: 10.0),
-                Text('ToDo with NodeJS + Mongodb',style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.w700),),
-                SizedBox(height: 8.0),
-                Text('5 Task',style: TextStyle(fontSize: 20),),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(email)
+                  // CircleAvatar(child: Icon(Icons.list,size: 30.0,),backgroundColor: Colors.white,radius: 30.0,),
+                  // SizedBox(height: 10.0),
+                  // Text('ToDo with NodeJS + Mongodb',style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.w700),),
+                  // SizedBox(height: 8.0),
+                  // Text('5 Task',style: TextStyle(fontSize: 20),),
 
-              ],
+                ],
+              ),
             ),
           ),
           Expanded(

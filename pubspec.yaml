@@ -11,6 +11,7 @@ dependencies:
 
   velocity_x: ^3.6.0
   http: ^0.13.5
+  # SharedPreferences > store a small amount of data in your local storage
   shared_preferences: ^2.1.0
   jwt_decoder: ^2.0.1
   flutter_slidable: ^2.0.0

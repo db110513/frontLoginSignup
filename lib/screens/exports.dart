@@ -6,7 +6,7 @@ export 'package:fluttertoast/fluttertoast.dart';
 export '../applogo.dart';
 export '../config.dart';
 export 'package:velocity_x/velocity_x.dart';
-export '../dashboard.dart';
+export 'dashboard.dart';
 export 'sign_up.dart';
 export 'package:jwt_decoder/jwt_decoder.dart';
 export 'package:shared_preferences/shared_preferences.dart';
