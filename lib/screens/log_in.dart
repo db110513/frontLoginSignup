@@ -53,7 +53,7 @@ class _LogInState extends State<LogIn> {
         // preferences.setString > store string data into the local storage (map(key:value))
         preferences.setString('token', token);
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Event(token: token)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
       }
 
       else {

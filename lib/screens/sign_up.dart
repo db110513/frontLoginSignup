@@ -16,8 +16,6 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordController = TextEditingController();
 
   bool noData = false;
-  bool noEmail = false;
-  bool noPass = false;
 
   void signUp() async {
 
@@ -175,7 +173,9 @@ class _SignUpState extends State<SignUp> {
                   HStack([
                     GestureDetector(
                       onTap: () => {
-                        if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+                        if (nameController.text.isNotEmpty && surnameController.text.isNotEmpty &&
+                            emailController.text.isNotEmpty && birthdateController.text.isNotEmpty &&
+                            picController.text.isNotEmpty && passwordController.text.isNotEmpty) {
                           signUp(),
                           toastUserCreated()
                         }

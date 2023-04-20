@@ -20,18 +20,64 @@ Future<Evento> crearEvento(String nombre) async {
 }
 
 class CrearEvento extends StatefulWidget {
-  const CrearEvento({Key? key}) : super(key: key);
+
+  final token;
+  const CrearEvento({@required this.token, Key? key}) : super(key: key);
 
   State<CrearEvento> createState() => _CrearEventoState();
 }
 
 class _CrearEventoState extends State<CrearEvento> {
 
-  final nombreController = TextEditingController();
-  final descripcionController = TextEditingController();
-  final fechaEventoController = TextEditingController();
-  final fotoController = TextEditingController();
-  final precioController = TextEditingController();
+  final nameController = TextEditingController();
+  final descController = TextEditingController();
+  final eventDateController = TextEditingController();
+  final picController = TextEditingController();
+  final priceController = TextEditingController();
+
+  bool noData = false;
+
+  void signUp() async {
+
+    if (nameController.text.isNotEmpty && descController.text.isNotEmpty
+        && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+        && priceController.text.isNotEmpty) {
+
+      // JSON obj
+      var regBody = {
+        "name" : nameController.text,
+        "surname" : descController.text,
+        "email" : eventDateController.text,
+        "birthdate" : picController.text,
+        "pic" : priceController.text,
+      };
+
+      // send obj to backend
+      var response = await http.post(Uri.parse(regEvent),
+          headers: {"Content-Type" : "application/json"},
+          body: jsonEncode(regBody)
+      );
+
+      var backResponse = jsonDecode(response.body);
+
+      if (backResponse['status']) {
+        toastEventCreated();
+        Navigator.pushNamed(context, '/logIn');
+      }
+
+      else {
+        loginError();
+      }
+    }
+
+    else {
+      setState(() {
+        // noData = true;
+      });
+
+    }
+  }
+
 
   late Future<Evento> futureEvento;
 
@@ -50,143 +96,113 @@ class _CrearEventoState extends State<CrearEvento> {
       body: Container(
         padding: const EdgeInsets.all(10),
 
-        child: ListView(
-            children: [
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                child: TextFormField(
-                  controller: nombreController,
-                  style: TextStyle(fontSize: 25),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.circular(20)
-                    ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    icon: const Icon(Icons.person, color: Colors.green),
-                    hintStyle: TextStyle(fontSize: 20),
-                    hintText: 'Nombre',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                child: TextFormField(
-                  controller: descripcionController,
-                  style: TextStyle(fontSize: 25),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.circular(20)
-                    ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    icon: const Icon(Icons.description_outlined, color: Colors.green),
-                    hintStyle: TextStyle(fontSize: 20),
-                    hintText: 'Descripción',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                child: TextFormField(
-                  style: TextStyle(fontSize: 25),
-                  controller: fechaEventoController,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.circular(20)
-                    ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    icon: const Icon(Icons.calendar_month, color: Colors.green),
-                    hintStyle: TextStyle(fontSize: 20),
-                    hintText: 'Fecha evento',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                child: TextFormField(
-                  controller: fotoController,
-                  style: TextStyle(fontSize: 25),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.circular(20)
-                    ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    icon: const Icon(Icons.camera_alt, color: Colors.green),
-                    hintText: 'Ruta a la foto',
-                    hintStyle: TextStyle(fontSize: 20),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                child: TextFormField(
-                  controller: precioController,
-                  style: TextStyle(fontSize: 25),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.circular(20)
-                    ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    icon: const Icon(Icons.euro, color: Colors.green),
-                    hintStyle: TextStyle(fontSize: 20),
-                    hintText: 'Precio',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green[900],
-                        padding: EdgeInsets.all(15),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CommonLogo(),
+                HeightBox(10),
+                TextField(
+                    controller: nameController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 23),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorStyle: TextStyle(color: Colors.blue[600],
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        errorText: noData ? "Enter Info" : null,
+                        hintText: "Name",
+                        hintStyle: TextStyle(fontSize: 25),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                TextField(
+                    controller: descController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 23),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorStyle: TextStyle(color: Colors.blue[600],
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        errorText: noData ? "Enter Info" : null,
+                        hintText: "Description",
+                        hintStyle: TextStyle(fontSize: 25),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                TextField(
+                    controller: eventDateController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 23),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorStyle: TextStyle(color: Colors.blue[600],
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        errorText: noData ? "Enter Info" : null,
+                        hintText: "Event Date",
+                        hintStyle: TextStyle(fontSize: 25),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                TextField(
+                    controller: picController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 23),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorStyle: TextStyle(color: Colors.blue[600],
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        errorText: noData ? "Enter Info" : null,
+                        hintText: "Picture",
+                        hintStyle: TextStyle(fontSize: 25),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                TextField(
+                    controller: priceController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 23),
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorStyle: TextStyle(color: Colors.blue[600],
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        errorText: noData ? "Enter Info" : null,
+                        hintText: "Price",
+                        hintStyle: TextStyle(fontSize: 25),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                HStack([
+                  GestureDetector(
+                    onTap: () => {
+                      if (nameController.text.isNotEmpty && descController.text.isNotEmpty
+                          && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+                          && priceController.text.isNotEmpty) {
+                        signUp(),
+                        toastEventCreated()
+                      }
+                      else {
+                        toastDataError()
+                      }
                     },
-                    icon: const Icon(Icons.arrow_back),
-                    label: const Text('BACK', style: TextStyle(fontSize: 30)),
+                    child: VxBox(child: "Sign Up".text.white.size(25).makeCentered()
+                        .p16()).green500.roundedLg.make().px16().py16(),
                   ),
-                  const SizedBox(width: 20),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green[900],
-                      padding: EdgeInsets.all(15),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))
-                    ),
-                    onPressed: () {
-
-                      setState(() {
-                        Map<String, dynamic> jsonData = {
-                          'nombre' : nombreController,
-                          'descripcion' : descripcionController,
-                          'fechaEvento' : fechaEventoController,
-                          'foto' : fotoController,
-                          'precio' : precioController
-                        };
-
-                      });
-
-
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text('CREAR', style: TextStyle(fontSize: 30)),
-                  ),
-                ],
-              )
-            ],
+                ]),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    toastLoggedIn();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LogIn()));
+                  },
+                  child: HStack([
+                  ]).centered(),
+                ),
+              ],
+            ),
           ),
+        ),
         ),
       ),
   );
@@ -196,3 +212,8 @@ class _CrearEventoState extends State<CrearEvento> {
   }
 
 }
+
+void toastEventCreated() => Fluttertoast.showToast(
+  msg: "Event created",
+  fontSize: 20,
+);

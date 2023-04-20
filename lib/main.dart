@@ -19,10 +19,10 @@ class App extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
 
-        initialRoute: '/logIn ',
+        initialRoute: '/ ',
 
         routes: {
-          '/logIn': (context) => LogIn(),
+          '/': (context) => LogIn(),
           '/signUp': (context) => SignUp(),
           '/home': (context) => const Home(),
           'backHome' : (context) => const Home(),
@@ -37,8 +37,8 @@ class App extends StatelessWidget {
         ),
 
         // Check if has expired && user has to login again
-        home: (token != null && JwtDecoder.isExpired(token) == false ) ?
-          Event(token: token) : LogIn()
+        // home: (token != null && JwtDecoder.isExpired(token) == false ) ?
+        //   Event(token: token) : LogIn()
     );
   }
 }

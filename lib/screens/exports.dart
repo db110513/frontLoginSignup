@@ -6,7 +6,6 @@ export 'package:fluttertoast/fluttertoast.dart';
 export '../applogo.dart';
 export '../config.dart';
 export 'package:velocity_x/velocity_x.dart';
-export 'event.dart';
 export 'sign_up.dart';
 export 'package:jwt_decoder/jwt_decoder.dart';
 export 'package:shared_preferences/shared_preferences.dart';
@@ -15,4 +14,4 @@ export 'ajustes.dart';
 export 'crear_evento.dart';
 export 'home.dart';
 export 'listado_eventos.dart';
-
+export 'event.dart';
