@@ -2,20 +2,21 @@ import 'exports.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class Dashboard extends StatefulWidget {
+class Event extends StatefulWidget {
 
   final token;
 
-  const Dashboard({@required this.token, Key? key}) : super(key: key);
+  const Event({@required this.token, Key? key}) : super(key: key);
 
-  State<Dashboard> createState() => _DashboardState();
+  State<Event> createState() => _EventState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _EventState extends State<Event> {
 
   late String email;
-
-  late String userId;
+  late String userId, name, desc, eventDate, pic;
+  late double price;
+  bool noData = false;
 
   TextEditingController userIdController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -32,50 +33,14 @@ class _DashboardState extends State<Dashboard> {
 
     Map <String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
 
-    email = jwtDecodedToken['email'];
-
-    // userId = jwtDecodedToken['_id'];
+    userId = jwtDecodedToken['_id'];
+    name = jwtDecodedToken['name'];
+    desc = jwtDecodedToken['desc'];
+    eventDate = jwtDecodedToken['eventDate'];
+    pic = jwtDecodedToken['pic'];
+    price = jwtDecodedToken['price'];
     // getTodoList(userId);
 
-  }
-
-  void addTodo() async {
-
-    if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-        && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
-        && priceController.text.isNotEmpty) {
-
-      var jsonObj = {
-        "userId" : userId,
-        "name" : nameController.text,
-        "desc" : descController.text,
-        "eventDate" : eventDateController.text,
-        "pic" : picController.text,
-        "price" : priceController.text,
-      };
-
-      var response = await http.post(Uri.parse(createEvent),
-          headers: {"Content-Type":"application/json"},
-          body: jsonEncode(jsonObj)
-      );
-
-      var jsonResponse = jsonDecode(response.body);
-
-      if (jsonResponse['status']) {
-        nameController.clear();
-        descController.clear();
-        eventDateController.clear();
-        picController.clear();
-        priceController.clear();
-
-        Navigator.pop(context);
-        getTodoList(userId);
-      }
-
-      else {
-        dashboardError();
-      }
-    }
   }
 
   void getTodoList(userId) async {
@@ -112,6 +77,55 @@ class _DashboardState extends State<Dashboard> {
     }
 
   }
+
+  void addEvent() async {
+
+    /*  TextEditingController userIdController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  TextEditingController eventDateController = TextEditingController();
+  TextEditingController picController = TextEditingController();
+  TextEditingController priceController = TextEditingController();*/
+
+    if (nameController.text.isNotEmpty && descController.text.isNotEmpty
+        && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+        && priceController.text.isNotEmpty) {
+
+      // JSON obj
+      var regBody = {
+        "name" : nameController.text,
+        "desc" : descController.text,
+        "eventDate" : eventDateController.text,
+        "pic" : picController.text,
+        "price" : priceController.text,
+      };
+
+      // send obj to backend
+      var response = await http.post(Uri.parse(regUser),
+          headers: {"Content-Type" : "application/json"},
+          body: jsonEncode(regBody)
+      );
+
+      var backResponse = jsonDecode(response.body);
+
+      if (backResponse['status']) {
+        toastUserCreated();
+        Navigator.pushNamed(context, '/logIn');
+      }
+
+      else {
+        loginError();
+      }
+    }
+
+    else {
+      setState(() {
+        noData = true;
+      });
+
+    }
+  }
+
 
   Widget build(BuildContext context) {
 
@@ -183,15 +197,17 @@ class _DashboardState extends State<Dashboard> {
           )
         ],
       ),
+
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>_displayTextInputDialog(context) ,
+        onPressed: () => _displayTextInputDialog(context) ,
         child: Icon(Icons.add),
-        tooltip: 'Add-Event',
+        tooltip: 'Add Event',
       ),
     );
   }
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
+
     return showDialog(
         context: context,
         builder: (context) {
@@ -256,15 +272,22 @@ class _DashboardState extends State<Dashboard> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))),
                   ).p4().px8(),
 
-                  ElevatedButton(onPressed: () {
-                    addTodo();
-                  }, child: Text("Add", style: TextStyle(fontSize: 25)))
+                  ElevatedButton(
+                    onPressed: () { addEvent();},
+                    child: Text("Add", style: TextStyle(fontSize: 25))
+                  )
                 ],
               )
           );
-        });
+        }
+      );
   }
 }
+
+void popUp() => Fluttertoast.showToast(
+  msg: "POP UP !",
+  fontSize: 20,
+);
 
 void dashboardError() => Fluttertoast.showToast(
   msg: "Error",

@@ -38,7 +38,7 @@ class App extends StatelessWidget {
 
         // Check if has expired && user has to login again
         home: (token != null && JwtDecoder.isExpired(token) == false ) ?
-          Dashboard(token: token) : LogIn()
+          Event(token: token) : LogIn()
     );
   }
 }

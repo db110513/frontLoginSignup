@@ -8,7 +8,11 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController birthdateController = TextEditingController();
+  TextEditingController picController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   bool noData = false;
@@ -17,16 +21,22 @@ class _SignUpState extends State<SignUp> {
 
   void signUp() async {
 
-    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+    if (nameController.text.isNotEmpty && surnameController.text.isNotEmpty
+        && emailController.text.isNotEmpty && birthdateController.text.isNotEmpty
+        && picController.text.isNotEmpty && passwordController.text.isNotEmpty) {
 
       // JSON obj
       var regBody = {
+        "name" : nameController.text,
+        "surname" : surnameController.text,
         "email" : emailController.text,
+        "birthdate" : birthdateController.text,
+        "pic" : picController.text,
         "password" : passwordController.text
       };
 
       // send obj to backend
-      var response = await http.post(Uri.parse(registration),
+      var response = await http.post(Uri.parse(regUser),
           headers: {"Content-Type" : "application/json"},
           body: jsonEncode(regBody)
       );
@@ -77,6 +87,34 @@ class _SignUpState extends State<SignUp> {
                   CommonLogo(),
                   HeightBox(10),
                   TextField(
+                      controller: nameController,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 23),
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorStyle: TextStyle(color: Colors.blue[600],
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          errorText: noData ? "Enter Info" : null,
+                          hintText: "Name",
+                          hintStyle: TextStyle(fontSize: 25),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  TextField(
+                      controller: surnameController,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 23),
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorStyle: TextStyle(color: Colors.blue[600],
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          errorText: noData ? "Enter Info" : null,
+                          hintText: "Surname",
+                          hintStyle: TextStyle(fontSize: 25),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  TextField(
                       controller: emailController,
                       keyboardType: TextInputType.text,
                       style: TextStyle(fontSize: 23),
@@ -90,7 +128,34 @@ class _SignUpState extends State<SignUp> {
                           hintStyle: TextStyle(fontSize: 25),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
-                  const SizedBox(height: 15),
+                  TextField(
+                      controller: birthdateController,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 23),
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorStyle: TextStyle(color: Colors.blue[600],
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          errorText: noData ? "Enter Info" : null,
+                          hintText: "Birthdate",
+                          hintStyle: TextStyle(fontSize: 25),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  TextField(
+                      controller: picController,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 23),
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorStyle: TextStyle(color: Colors.blue[600],
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          errorText: noData ? "Enter Info" : null,
+                          hintText: "Picture",
+                          hintStyle: TextStyle(fontSize: 25),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
                   TextField(
                     controller: passwordController,
                     keyboardType: TextInputType.text,
