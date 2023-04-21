@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../screens/exports.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CommonLogo extends StatelessWidget {

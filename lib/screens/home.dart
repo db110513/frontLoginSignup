@@ -30,44 +30,46 @@ class Home extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 200,
+                  width: 208,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[500],
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))
                     ),
-                    onPressed: () => Navigator.pushNamed(context, '/home/listado'),
+                    onPressed: () => Navigator.pushNamed(context, '/home/list'),
                     icon: const Icon(Icons.list),
-                    label: const Text('LISTADO', style: TextStyle(fontSize: 30)),
+                    label: const Text('LIST', style: TextStyle(fontSize: 30)),
                   ),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: 200,
+                  width: 208,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[500],
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))
                     ),
-                    onPressed: () => Navigator.pushNamed(context, '/home/crear'),
+                    onPressed: () => Navigator.pushNamed(context, '/home/register'),
                     icon: const Icon(Icons.add),
-                    label: const Text('CREAR', style: TextStyle(fontSize: 30)),
+                    label: const Text('REGISTER', style: TextStyle(fontSize:
+                    30)),
                   ),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: 200,
+                  width: 208,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[500],
                       padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))
                     ),
-                    onPressed: () => Navigator.pushNamed(context, '/home/ajustes'),
+                    onPressed: () => Navigator.pushNamed(context, '/home/settings'),
                     icon: const Icon(Icons.settings),
-                    label: const Text('AJUSTES', style: TextStyle(fontSize: 30)),
+                    label: const Text('SETTINGS', style: TextStyle(fontSize:
+                    30)),
                   ),
                 ),
               ],

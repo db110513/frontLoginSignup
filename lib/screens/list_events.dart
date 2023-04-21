@@ -1,28 +1,15 @@
 import 'exports.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
-class ListadoEventos extends StatefulWidget {
-  const ListadoEventos({Key? key}) : super(key: key);
+class EventList extends StatefulWidget {
+  const EventList({Key? key}) : super(key: key);
 
-  State<ListadoEventos> createState() => _ListadoEventosState();
+  State<EventList> createState() => _EventListState();
 }
 
-class _ListadoEventosState extends State<ListadoEventos> {
+class _EventListState extends State<EventList> {
 
-  List<dynamic> usuarios = [];
-
-  void fetchUsuarios() async {
-    final response = await http.get('https://58d9-83-41-106-41.eu.ngrok.io/api/usuarios' as Uri);
-    final body = response.body;
-    final json = jsonDecode(body);
-
-    setState(() {
-      usuarios = json['usuarios'];
-    });
-
-    print('fetch users ok');
-
-  }
+  List<dynamic> events = [];
 
 
   Widget build(BuildContext context) => MaterialApp(
@@ -33,7 +20,7 @@ class _ListadoEventosState extends State<ListadoEventos> {
 
       appBar: AppBar(
           centerTitle: true,
-          title: const Text('Listado Usuarios', style: TextStyle(fontSize: 40)),
+          title: const Text('Listado Eventos', style: TextStyle(fontSize: 40)),
           backgroundColor: Colors.green[900],
         ),
 
@@ -44,10 +31,10 @@ class _ListadoEventosState extends State<ListadoEventos> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
+                heroTag: "btn1",
                 backgroundColor: Colors.green[900],
-                onPressed: fetchUsuarios,
+                onPressed: fetchData,
                 child: const Text('GET', style: TextStyle(fontSize: 15)),
-
               ),
             ),
           ),
@@ -56,6 +43,7 @@ class _ListadoEventosState extends State<ListadoEventos> {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: FloatingActionButton(
+                heroTag: "btn2",
                 backgroundColor: Colors.green[900],
                 onPressed: backHome,
                 child: const Text('BACK', style: TextStyle(fontSize: 15)),
@@ -74,5 +62,16 @@ class _ListadoEventosState extends State<ListadoEventos> {
   void backHome() {
     Navigator.pushNamed(context, 'backHome');
   }
+
+}
+
+void fetchData() async {
+
+  var dio = Dio();
+
+  var response = await dio.get(events);
+
+  print (response.statusCode);
+  print (response.data.toString());
 
 }

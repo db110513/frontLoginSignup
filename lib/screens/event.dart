@@ -11,7 +11,6 @@
 //
 // class _EventState extends State<Event> {
 //
-//   late String email;
 //   late String userId, name, desc, eventDate, pic;
 //   late double price;
 //   bool noData = false;

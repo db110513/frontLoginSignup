@@ -26,9 +26,9 @@ class App extends StatelessWidget {
           '/signUp': (context) => SignUp(),
           '/home': (context) => const Home(),
           'backHome' : (context) => const Home(),
-          '/home/crear' : (context) => const CrearEvento(),
-          '/home/ajustes' : (context) => const Ajustes(),
-          '/home/listado' : (context) => const ListadoEventos(),
+          '/home/register' : (context) => const RegEvent(token: null),
+          '/home/settings' : (context) => const Ajustes(),
+          '/home/list' : (context) => const EventList(),
         },
 
         theme: ThemeData(
