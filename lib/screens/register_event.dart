@@ -1,4 +1,5 @@
 import 'exports.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class RegEvent extends StatefulWidget {
@@ -13,23 +14,28 @@ class _RegEventState extends State<RegEvent> {
 
   final nameController = TextEditingController();
   final descController = TextEditingController();
-  final eventDateController = TextEditingController();
+  final dateController = TextEditingController();
   final picController = TextEditingController();
   final priceController = TextEditingController();
 
   bool noData = false;
+  
+  void initState() {
+    super.initState();
+    dateController.text = "";
+  }
 
   void registerEvent() async {
 
     if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-        && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+        && dateController.text.isNotEmpty && picController.text.isNotEmpty
         && priceController.text.isNotEmpty) {
 
       // JSON obj
       var regBody = {
         "name" : nameController.text,
         "desc" : descController.text,
-        "eventDate" : eventDateController.text,
+        "eventDate" : dateController.text,
         "pic" : picController.text,
         "price" : priceController.text
       };
@@ -116,8 +122,25 @@ class _RegEventState extends State<RegEvent> {
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
                   HeightBox(10),
                   TextField(
-                      controller: eventDateController,
+                      controller: dateController,
                       keyboardType: TextInputType.text,
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime? date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2100)
+                        );
+                        if (date != null) {
+                          String formattedDate = DateFormat("dd-MM-yyyy")
+                              .format(date);
+                          setState(() {
+                            dateController.text = formattedDate.toString();
+                          });
+                        }
+                        else notDateSelected();
+                      },
                       style: TextStyle(fontSize: 23),
                       decoration: InputDecoration(
                           filled: true,
@@ -167,7 +190,7 @@ class _RegEventState extends State<RegEvent> {
                       onTap: () => {
 
                         if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-                            && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+                            && dateController.text.isNotEmpty && picController.text.isNotEmpty
                             && priceController.text.isNotEmpty) {
                           registerEvent(),
                           toastUserCreated()
@@ -206,6 +229,11 @@ void toastEventCreated() => Fluttertoast.showToast(
 
 void toastEventError() => Fluttertoast.showToast(
   msg: "Event error",
+  fontSize: 20,
+);
+
+void notDateSelected() => Fluttertoast.showToast(
+  msg: "No date selected",
   fontSize: 20,
 );
 
