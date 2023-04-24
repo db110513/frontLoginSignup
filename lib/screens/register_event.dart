@@ -133,8 +133,8 @@ class _RegEventState extends State<RegEvent> {
                             lastDate: DateTime(2100)
                         );
                         if (date != null) {
-                          String formattedDate = DateFormat("dd-MM-yyyy")
-                              .format(date);
+                          String formattedDate = DateFormat("dd-MM-yyyy").format(date);
+
                           setState(() {
                             dateController.text = formattedDate.toString();
                           });
