@@ -1,5 +1,5 @@
 import 'exports.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
@@ -10,19 +10,6 @@ class EventList extends StatefulWidget {
 class _EventListState extends State<EventList> {
 
   List<dynamic> events = [];
-
-  void fetchUsuarios() async {
-    final response = await http.get('https://58d9-83-41-106-41.eu.ngrok.io/api/usuarios' as Uri);
-    final body = response.body;
-    final json = jsonDecode(body);
-
-    setState(() {
-      events = json['usuarios'];
-    });
-
-    print('fetch users ok');
-
-  }
 
 
   Widget build(BuildContext context) => MaterialApp(
@@ -44,10 +31,10 @@ class _EventListState extends State<EventList> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
+                heroTag: "btn1",
                 backgroundColor: Colors.green[900],
-                onPressed: fetchUsuarios,
+                onPressed: fetchData,
                 child: const Text('GET', style: TextStyle(fontSize: 15)),
-
               ),
             ),
           ),
@@ -56,6 +43,7 @@ class _EventListState extends State<EventList> {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: FloatingActionButton(
+                heroTag: "btn2",
                 backgroundColor: Colors.green[900],
                 onPressed: backHome,
                 child: const Text('BACK', style: TextStyle(fontSize: 15)),
@@ -74,5 +62,16 @@ class _EventListState extends State<EventList> {
   void backHome() {
     Navigator.pushNamed(context, 'backHome');
   }
+
+}
+
+void fetchData() async {
+
+  var dio = Dio();
+
+  var response = await dio.get(events);
+
+  print (response.statusCode);
+  print (response.data.toString());
 
 }
