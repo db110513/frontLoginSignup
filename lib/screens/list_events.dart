@@ -1,15 +1,15 @@
 import 'exports.dart';
 import 'package:http/http.dart' as http;
 
-class ListadoEventos extends StatefulWidget {
-  const ListadoEventos({Key? key}) : super(key: key);
+class EventList extends StatefulWidget {
+  const EventList({Key? key}) : super(key: key);
 
-  State<ListadoEventos> createState() => _ListadoEventosState();
+  State<EventList> createState() => _EventListState();
 }
 
-class _ListadoEventosState extends State<ListadoEventos> {
+class _EventListState extends State<EventList> {
 
-  List<dynamic> usuarios = [];
+  List<dynamic> events = [];
 
   void fetchUsuarios() async {
     final response = await http.get('https://58d9-83-41-106-41.eu.ngrok.io/api/usuarios' as Uri);
@@ -17,7 +17,7 @@ class _ListadoEventosState extends State<ListadoEventos> {
     final json = jsonDecode(body);
 
     setState(() {
-      usuarios = json['usuarios'];
+      events = json['usuarios'];
     });
 
     print('fetch users ok');
@@ -33,7 +33,7 @@ class _ListadoEventosState extends State<ListadoEventos> {
 
       appBar: AppBar(
           centerTitle: true,
-          title: const Text('Listado Usuarios', style: TextStyle(fontSize: 40)),
+          title: const Text('Listado Eventos', style: TextStyle(fontSize: 40)),
           backgroundColor: Colors.green[900],
         ),
 
