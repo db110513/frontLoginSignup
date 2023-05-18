@@ -24,11 +24,20 @@ class App extends StatelessWidget {
         routes: {
           '/init': (context) => LogIn(),
           '/signUp': (context) => SignUp(),
+
           '/home': (context) => const Home(),
           'backHome' : (context) => const Home(),
-          '/home/register' : (context) => const RegEvent(token: null),
-          '/home/settings' : (context) => const Ajustes(),
-          '/home/list' : (context) => const EventList(),
+
+          '//user' : (context) => const User(),
+          '//event' : (context) => const Event(),
+
+          '//regEvent' : (context) => const RegEvent(token: null),
+          '//regUser' : (context) => const RegEvent(token: null),
+
+          '//settings' : (context) => const Ajustes(),
+
+          '//listEvs' : (context) => const EventList(),
+          '//listUsrs' : (context) => const EventList(),
         },
 
         theme: ThemeData(

@@ -2,8 +2,8 @@ import 'exports.dart';
 
 // CREANT PANTALLES EVENTS USERS DEL HOME SCREEN
 
-class Event extends StatelessWidget {
-  const Event({Key? key}) : super(key: key);
+class User extends StatelessWidget {
+  const User({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) => MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -13,7 +13,7 @@ class Event extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: const Text('User', style: TextStyle(fontSize: 40)),
-          backgroundColor: Colors.green[900],
+          backgroundColor: Colors.blue[900],
         ),
 
         body: Container(
@@ -34,11 +34,11 @@ class Event extends StatelessWidget {
                   width: 208,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green[500],
+                        backgroundColor: Colors.blue[500],
                         padding: EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))
                     ),
-                    onPressed: () => Navigator.pushNamed(context, '//listEvs'),
+                    onPressed: () => Navigator.pushNamed(context, '///listUsrs'),
                     icon: const Icon(Icons.list),
                     label: const Text('LIST', style: TextStyle(fontSize: 30)),
                   ),
@@ -48,11 +48,11 @@ class Event extends StatelessWidget {
                   width: 208,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green[500],
+                        backgroundColor: Colors.blue[500],
                         padding: EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)))
                     ),
-                    onPressed: () => Navigator.pushNamed(context, '///regEvent'),
+                    onPressed: () => Navigator.pushNamed(context, '///regUser'),
                     icon: const Icon(Icons.add),
                     label: const Text('REGISTER', style: TextStyle(fontSize:
                     30)),
