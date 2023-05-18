@@ -1,4 +1,5 @@
 import 'exports.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class RegUser extends StatefulWidget {
@@ -13,6 +14,7 @@ class _RegUserState extends State<RegUser> {
 
   final nameController = TextEditingController();
   final descController = TextEditingController();
+  final dateController = TextEditingController();
   final picController = TextEditingController();
   final priceController = TextEditingController();
 
@@ -20,18 +22,20 @@ class _RegUserState extends State<RegUser> {
 
   void initState() {
     super.initState();
+    dateController.text = "";
   }
 
   void registerEvent() async {
 
     if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-        && picController.text.isNotEmpty
+        && dateController.text.isNotEmpty && picController.text.isNotEmpty
         && priceController.text.isNotEmpty) {
 
       // JSON obj
       var regBody = {
         "name" : nameController.text,
         "desc" : descController.text,
+        "eventDate" : dateController.text,
         "pic" : picController.text,
         "price" : priceController.text
       };
@@ -46,7 +50,7 @@ class _RegUserState extends State<RegUser> {
 
       if (backResponse['status']) {
         toastUserCreated();
-        Navigator.pushNamed(context, '//user');
+        Navigator.pushNamed(context, '/home');
       }
 
       else {
@@ -118,6 +122,38 @@ class _RegUserState extends State<RegUser> {
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
                   HeightBox(10),
                   TextField(
+                      controller: dateController,
+                      keyboardType: TextInputType.text,
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime? date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2100)
+                        );
+                        if (date != null) {
+                          String formattedDate = DateFormat("dd-MM-yyyy").format(date);
+
+                          setState(() {
+                            dateController.text = formattedDate.toString();
+                          });
+                        }
+                        else notDateSelected();
+                      },
+                      style: TextStyle(fontSize: 23),
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorStyle: TextStyle(color: Colors.blue[600],
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          errorText: noData ? "Enter Info" : null,
+                          hintText: "Event Date",
+                          hintStyle: TextStyle(fontSize: 25),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  HeightBox(10),
+                  TextField(
                       controller: picController,
                       keyboardType: TextInputType.text,
                       style: TextStyle(fontSize: 23),
@@ -132,6 +168,7 @@ class _RegUserState extends State<RegUser> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
                   HeightBox(10),
+
                   TextField(
                       controller: priceController,
                       keyboardType: TextInputType.text,
@@ -153,7 +190,7 @@ class _RegUserState extends State<RegUser> {
                       onTap: () => {
 
                         if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-                            && picController.text.isNotEmpty
+                            && dateController.text.isNotEmpty && picController.text.isNotEmpty
                             && priceController.text.isNotEmpty) {
                           registerEvent(),
                           toastUserCreated()

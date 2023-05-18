@@ -1,3 +1,5 @@
+import 'package:frontend/screens/list_users.dart';
+
 import 'screens/exports.dart';
 
 void main() async {
@@ -26,7 +28,7 @@ class App extends StatelessWidget {
           '/signUp': (context) => SignUp(),
 
           '/home': (context) => const Home(),
-          'backHome' : (context) => const Home(),
+          '/backHome' : (context) => const Home(),
 
           '//user' : (context) => const User(),
           '//event' : (context) => const Event(),
@@ -40,7 +42,7 @@ class App extends StatelessWidget {
           '//settings' : (context) => const Ajustes(),
 
           '//listEvts' : (context) => const EventList(),
-          '//listUsrs' : (context) => const EventList(),
+          '//listUsrs' : (context) => const ListUsers(),
         },
 
         theme: ThemeData(
