@@ -19,3 +19,4 @@ export '../logos/studiogenesisLogo.dart';
 export 'user.dart';
 export 'event.dart';
 export 'list_events.dart';
+export 'register_user.dart';

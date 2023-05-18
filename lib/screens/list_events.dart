@@ -20,7 +20,8 @@ class _EventListState extends State<EventList> {
 
       appBar: AppBar(
           centerTitle: true,
-          title: const Text('Listado Eventos', style: TextStyle(fontSize: 40)),
+          title: const Text('Events List', style: TextStyle(fontSize:
+          40)),
           backgroundColor: Colors.green[900],
         ),
 
@@ -45,7 +46,7 @@ class _EventListState extends State<EventList> {
               child: FloatingActionButton(
                 heroTag: "btn2",
                 backgroundColor: Colors.green[900],
-                onPressed: backHome,
+                onPressed: () {Navigator.pushNamed(context, '//event');},
                 child: const Text('BACK', style: TextStyle(fontSize: 15)),
               ),
             ),
@@ -58,10 +59,6 @@ class _EventListState extends State<EventList> {
   );
 
   void dispose() => super.dispose();
-
-  void backHome() {
-    Navigator.pushNamed(context, 'backHome');
-  }
 
 }
 

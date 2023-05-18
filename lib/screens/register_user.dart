@@ -1,20 +1,18 @@
 import 'exports.dart';
-import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
-class RegEvent extends StatefulWidget {
+class RegUser extends StatefulWidget {
 
   final token;
-  const RegEvent({@required this.token, Key? key}) : super(key: key);
+  const RegUser({@required this.token, Key? key}) : super(key: key);
 
-  State<RegEvent> createState() => _RegEventState();
+  State<RegUser> createState() => _RegUserState();
 }
 
-class _RegEventState extends State<RegEvent> {
+class _RegUserState extends State<RegUser> {
 
   final nameController = TextEditingController();
   final descController = TextEditingController();
-  final dateController = TextEditingController();
   final picController = TextEditingController();
   final priceController = TextEditingController();
 
@@ -22,20 +20,18 @@ class _RegEventState extends State<RegEvent> {
 
   void initState() {
     super.initState();
-    dateController.text = "";
   }
 
   void registerEvent() async {
 
     if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-        && dateController.text.isNotEmpty && picController.text.isNotEmpty
+        && picController.text.isNotEmpty
         && priceController.text.isNotEmpty) {
 
       // JSON obj
       var regBody = {
         "name" : nameController.text,
         "desc" : descController.text,
-        "eventDate" : dateController.text,
         "pic" : picController.text,
         "price" : priceController.text
       };
@@ -49,12 +45,12 @@ class _RegEventState extends State<RegEvent> {
       var backResponse = jsonDecode(response.body);
 
       if (backResponse['status']) {
-        toastEventCreated();
-        Navigator.pushNamed(context, '/home');
+        toastUserCreated();
+        Navigator.pushNamed(context, '//user');
       }
 
       else {
-        toastEventError();
+        toastUserError();
       }
     }
 
@@ -122,38 +118,6 @@ class _RegEventState extends State<RegEvent> {
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
                   HeightBox(10),
                   TextField(
-                      controller: dateController,
-                      keyboardType: TextInputType.text,
-                      readOnly: true,
-                      onTap: () async {
-                        DateTime? date = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime(2100)
-                        );
-                        if (date != null) {
-                          String formattedDate = DateFormat("dd-MM-yyyy").format(date);
-
-                          setState(() {
-                            dateController.text = formattedDate.toString();
-                          });
-                        }
-                        else notDateSelected();
-                      },
-                      style: TextStyle(fontSize: 23),
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          errorStyle: TextStyle(color: Colors.blue[600],
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          errorText: noData ? "Enter Info" : null,
-                          hintText: "Event Date",
-                          hintStyle: TextStyle(fontSize: 25),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
-                  HeightBox(10),
-                  TextField(
                       controller: picController,
                       keyboardType: TextInputType.text,
                       style: TextStyle(fontSize: 23),
@@ -168,7 +132,6 @@ class _RegEventState extends State<RegEvent> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
                   HeightBox(10),
-
                   TextField(
                       controller: priceController,
                       keyboardType: TextInputType.text,
@@ -190,7 +153,7 @@ class _RegEventState extends State<RegEvent> {
                       onTap: () => {
 
                         if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-                            && dateController.text.isNotEmpty && picController.text.isNotEmpty
+                            && picController.text.isNotEmpty
                             && priceController.text.isNotEmpty) {
                           registerEvent(),
                           toastUserCreated()
@@ -222,22 +185,17 @@ class _RegEventState extends State<RegEvent> {
   }
 }
 
-void toastEventCreated() => Fluttertoast.showToast(
+void toastUserCreated() => Fluttertoast.showToast(
   msg: "Event created",
   fontSize: 20,
 );
 
-void toastEventError() => Fluttertoast.showToast(
+void toastUserError() => Fluttertoast.showToast(
   msg: "Event error",
   fontSize: 20,
 );
 
-void notDateSelected() => Fluttertoast.showToast(
-  msg: "No date selected",
-  fontSize: 20,
-);
-
-void createEventError() => Fluttertoast.showToast(
+void createUserError() => Fluttertoast.showToast(
   msg: "Error",
   fontSize: 20,
 );

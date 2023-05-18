@@ -31,12 +31,15 @@ class App extends StatelessWidget {
           '//user' : (context) => const User(),
           '//event' : (context) => const Event(),
 
+          'backEvent' : (context) => const Event(),
+          'backUser' : (context) => const User(),
+
           '//regEvent' : (context) => const RegEvent(token: null),
-          '//regUser' : (context) => const RegEvent(token: null),
+          '//regUser' : (context) => const RegUser(token: null),
 
           '//settings' : (context) => const Ajustes(),
 
-          '//listEvs' : (context) => const EventList(),
+          '//listEvts' : (context) => const EventList(),
           '//listUsrs' : (context) => const EventList(),
         },
 
