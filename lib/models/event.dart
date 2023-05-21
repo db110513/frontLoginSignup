@@ -42,21 +42,22 @@ class Event {
     required this.events,
   });
 
-  String name;
-  String desc;
-  String eventDate;
-  String pic;
-  int price;
-  List<String> events;
+  final String name;
+  final String desc;
+  final String eventDate;
+  final String pic;
+  final int price;
+  final List<String> events;
 
-  factory Event.fromJson(Map<String, dynamic> json) => Event(
-    name: json["name"],
-    desc: json["desc"],
-    eventDate: json["eventDate"],
-    pic: json["pic"],
-    price: json["price"],
-    events: List<String>.from(json["events"].map((x) => x)),
-  );
+  factory Event.fromJson(Map<String, dynamic> json) =>
+    Event(
+      name: json["name"],
+      desc: json["desc"],
+      eventDate: json["eventDate"],
+      pic: json["pic"],
+      price: json["price"],
+      events: List<String>.from(json["events"].map((x) => x)),
+    );
 
   Map<String, dynamic> toJson() => {
     "title": name,

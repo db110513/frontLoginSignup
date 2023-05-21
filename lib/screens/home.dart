@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
                 image: NetworkImage(
                     'https://w0.peakpx.com/wallpaper/225/164/HD-wallpaper-neon-line-green-neon-beauty-'
                         'black-dark-destruction-glow-green-line-the-xiaomi.jpg'
-                )
+                ),
               )
           ),
           child: Center(
@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.pushNamed(context, '//user'),
                     icon: const Icon(Icons.person),
-                    label: const Text('USERS', style: TextStyle(fontSize: 30)),
+                    label: const Text('USER', style: TextStyle(fontSize: 30)),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -53,7 +53,7 @@ class Home extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.pushNamed(context, '//event'),
                     icon: const Icon(Icons.rocket_launch),
-                    label: const Text('EVENTS', style: TextStyle(fontSize:
+                    label: const Text('EVENT', style: TextStyle(fontSize:
                     30)),
                   ),
                 ),

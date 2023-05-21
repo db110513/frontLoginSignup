@@ -216,7 +216,7 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-void toastUserCreated() => Fluttertoast.showToast(
+void toastNewUserCreated() => Fluttertoast.showToast(
   msg: "User created",
   fontSize: 20,
 );

@@ -1,5 +1,7 @@
 import 'exports.dart';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+
 
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
@@ -62,13 +64,8 @@ class _EventListState extends State<EventList> {
 
 }
 
-void fetchData() async {
+Future<http.Response> fetchData() {
 
-  var dio = Dio();
-
-  var response = await dio.get(events);
-
-  print (response.statusCode);
-  print (response.data.toString());
+  return http.get(Uri.parse(users));
 
 }

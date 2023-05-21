@@ -24,10 +24,10 @@ class App extends StatelessWidget {
         initialRoute: '/init',
 
         routes: {
-          '/init': (context) => LogIn(),
+          '/init' : (context) => LogIn(),
           '/signUp': (context) => SignUp(),
 
-          '/home': (context) => const Home(),
+          '/home' : (context) => const Home(),
           '/backHome' : (context) => const Home(),
 
           '//user' : (context) => const User(),

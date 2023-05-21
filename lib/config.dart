@@ -7,3 +7,4 @@ final createEvent = url + 'createEvent';
 final getEventList = url + 'getEventList';
 final deleteEvent = url + 'deleteEvent';
 final events = url + 'events';
+final users = url + 'users';

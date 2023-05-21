@@ -185,24 +185,29 @@ class _RegEventState extends State<RegEvent> {
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
                   HeightBox(30),
 
-                  HStack([
-                    GestureDetector(
-                      onTap: () => {
+                  Row(
+                    children: [
+                      HStack([
+                        GestureDetector(
+                          onTap: () => {
 
-                        if (nameController.text.isNotEmpty && descController.text.isNotEmpty
-                            && dateController.text.isNotEmpty && picController.text.isNotEmpty
-                            && priceController.text.isNotEmpty) {
-                          registerEvent(),
-                          toastUserCreated()
-                        }
-                        else {
-                          toastDataError()
-                        }
-                      },
-                      child: VxBox(child: "Register".text.white.size(25).makeCentered()
-                          .p16()).blue500.roundedLg.make().px16().py16(),
-                    ),
-                  ]),
+                            if (nameController.text.isNotEmpty && descController.text.isNotEmpty
+                                && dateController.text.isNotEmpty && picController.text.isNotEmpty
+                                && priceController.text.isNotEmpty) {
+                              registerEvent(),
+                              toastUserCreated()
+                            }
+                            else {
+                              toastDataError()
+                            }
+                          },
+                          child: VxBox(child: "Register".text.white.size(25).makeCentered()
+                              .p16()).blue500.roundedLg.make().px16().py16(),
+                        ),
+                      ]),
+                      ElevatedButton(onPressed: null, child: const Text('BACK'))
+                    ],
+                  ),
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
