@@ -1,40 +1,41 @@
 import 'exports.dart';
 import 'package:http/http.dart' as http;
 
-class SignUp extends StatefulWidget {
+class RegEvent extends StatefulWidget {
+  
+  final token;
+  const RegEvent({@required this.token, Key? key}) : super(key: key);
 
-  _SignUpState createState() => _SignUpState();
+  State<RegEvent> createState() => _RegEventState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _RegEventState extends State<RegEvent> {
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController birthdateController = TextEditingController();
-  TextEditingController picController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final descController = TextEditingController();
+  final eventDateController = TextEditingController();
+  final picController = TextEditingController();
+  final priceController = TextEditingController();
 
   bool noData = false;
 
-  void signUp() async {
+  void registerEvent() async {
 
-    if (nameController.text.isNotEmpty && surnameController.text.isNotEmpty
-        && emailController.text.isNotEmpty && birthdateController.text.isNotEmpty
-        && picController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+    if (nameController.text.isNotEmpty && descController.text.isNotEmpty
+        && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+        && priceController.text.isNotEmpty) {
 
       // JSON obj
       var regBody = {
         "name" : nameController.text,
-        "surname" : surnameController.text,
-        "email" : emailController.text,
-        "birthdate" : birthdateController.text,
+        "desc" : descController.text,
+        "eventDate" : eventDateController.text,
         "pic" : picController.text,
-        "password" : passwordController.text
+        "price" : priceController.text
       };
 
       // send obj to backend
-      var response = await http.post(Uri.parse(regUser),
+      var response = await http.post(Uri.parse(regEvent),
           headers: {"Content-Type" : "application/json"},
           body: jsonEncode(regBody)
       );
@@ -43,11 +44,11 @@ class _SignUpState extends State<SignUp> {
 
       if (backResponse['status']) {
         toastEventCreated();
-        Navigator.pushNamed(context, '/LogIn');
+        Navigator.pushNamed(context, '/home');
       }
 
       else {
-        loginError();
+        toastEventError();
       }
     }
 
@@ -77,13 +78,13 @@ class _SignUpState extends State<SignUp> {
                 tileMode: TileMode.mirror
             ),
           ),
+
           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CommonLogo(),
-                  HeightBox(10),
+                  StudiogenesisLogo(),
                   TextField(
                       controller: nameController,
                       keyboardType: TextInputType.text,
@@ -98,8 +99,9 @@ class _SignUpState extends State<SignUp> {
                           hintStyle: TextStyle(fontSize: 25),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  HeightBox(10),
                   TextField(
-                      controller: surnameController,
+                      controller: descController,
                       keyboardType: TextInputType.text,
                       style: TextStyle(fontSize: 23),
                       decoration: InputDecoration(
@@ -108,12 +110,13 @@ class _SignUpState extends State<SignUp> {
                           errorStyle: TextStyle(color: Colors.blue[600],
                               fontSize: 20, fontWeight: FontWeight.bold),
                           errorText: noData ? "Enter Info" : null,
-                          hintText: "Surname",
+                          hintText: "Description",
                           hintStyle: TextStyle(fontSize: 25),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  HeightBox(10),
                   TextField(
-                      controller: emailController,
+                      controller: eventDateController,
                       keyboardType: TextInputType.text,
                       style: TextStyle(fontSize: 23),
                       decoration: InputDecoration(
@@ -122,24 +125,11 @@ class _SignUpState extends State<SignUp> {
                           errorStyle: TextStyle(color: Colors.blue[600],
                               fontSize: 20, fontWeight: FontWeight.bold),
                           errorText: noData ? "Enter Info" : null,
-                          hintText: "Email",
+                          hintText: "Event Date",
                           hintStyle: TextStyle(fontSize: 25),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
-                  TextField(
-                      controller: birthdateController,
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(fontSize: 23),
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          errorStyle: TextStyle(color: Colors.blue[600],
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          errorText: noData ? "Enter Info" : null,
-                          hintText: "Birthdate",
-                          hintStyle: TextStyle(fontSize: 25),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  HeightBox(10),
                   TextField(
                       controller: picController,
                       keyboardType: TextInputType.text,
@@ -154,44 +144,47 @@ class _SignUpState extends State<SignUp> {
                           hintStyle: TextStyle(fontSize: 25),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  HeightBox(10),
+
                   TextField(
-                    controller: passwordController,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    style: TextStyle(fontSize: 23),
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorStyle: TextStyle(color: Colors.blue[600],
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        errorText: noData ? "Enter Info" : null,
-                        hintText: "Password",
-                        hintStyle: TextStyle(fontSize: 25),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                  ).p4().px24(),
+                      controller: priceController,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 23),
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          errorStyle: TextStyle(color: Colors.blue[600],
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          errorText: noData ? "Enter Info" : null,
+                          hintText: "Price",
+                          hintStyle: TextStyle(fontSize: 25),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))))).p4().px24(),
+                  HeightBox(30),
+
                   HStack([
                     GestureDetector(
                       onTap: () => {
-                        if (nameController.text.isNotEmpty && surnameController.text.isNotEmpty &&
-                            emailController.text.isNotEmpty && birthdateController.text.isNotEmpty &&
-                            picController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-                          signUp(),
+
+                        if (nameController.text.isNotEmpty && descController.text.isNotEmpty
+                            && eventDateController.text.isNotEmpty && picController.text.isNotEmpty
+                            && priceController.text.isNotEmpty) {
+                          registerEvent(),
                           toastEventCreated()
                         }
                         else {
                           toastDataError()
                         }
                       },
-                      child: VxBox(child: "Sign Up".text.white.size(25).makeCentered()
-                          .p16()).green500.roundedLg.make().px16().py16(),
+                      child: VxBox(child: "Register".text.white.size(25).makeCentered()
+                          .p16()).blue500.roundedLg.make().px16().py16(),
                     ),
                   ]),
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       toastLoggedIn();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LogIn()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                     },
                     child: HStack([
                     ]).centered(),
@@ -201,37 +194,22 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         ),
-        bottomNavigationBar: GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LogIn()));
-          },
-          child: Container(
-              height: 35,
-              color: Colors.green[900],
-              child: Center(child: "Tienes cuenta?  Log In".text.white.size(20).makeCentered())
-          ),
-        ),
       ),
     );
   }
 }
 
-void toastUserCreated() => Fluttertoast.showToast(
-  msg: "User created",
+void toastEventCreated() => Fluttertoast.showToast(
+  msg: "Event created",
   fontSize: 20,
 );
 
-void toastDataError() => Fluttertoast.showToast(
-  msg: "Insert data",
+void toastEventError() => Fluttertoast.showToast(
+  msg: "Event error",
   fontSize: 20,
 );
 
-void signupError() => Fluttertoast.showToast(
+void createEventError() => Fluttertoast.showToast(
   msg: "Error",
-  fontSize: 20,
-);
-
-void toastLoggedIn() => Fluttertoast.showToast(
-  msg: "Logged In",
   fontSize: 20,
 );

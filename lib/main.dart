@@ -19,16 +19,17 @@ class App extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
 
-        initialRoute: '/ ',
+        initialRoute: '/LogIn',
 
         routes: {
-          '/': (context) => LogIn(),
+          '/LogIn': (context) => LogIn(),
           '/signUp': (context) => SignUp(),
           '/home': (context) => const Home(),
           'backHome' : (context) => const Home(),
-          '/home/crear' : (context) => const CrearEvento(),
-          '/home/ajustes' : (context) => const Ajustes(),
-          '/home/listado' : (context) => const ListadoEventos(),
+          '/home/register' : (context) => const RegEvent(token: null),
+          '/home/settings' : (context) => const Ajustes(),
+          '/home/eventList' : (context) => const EventList(),
+          '/home/events/getEvents' : (context) => const EventList(),
         },
 
         theme: ThemeData(
