@@ -1,7 +1,5 @@
 import 'exports.dart';
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-
 
 class ListUsers extends StatefulWidget {
   const ListUsers({Key? key}) : super(key: key);
@@ -31,18 +29,6 @@ class _ListUsersState extends State<ListUsers> {
             Padding(
               padding: const EdgeInsets.all(12),
               child: Align(
-                alignment: Alignment.bottomRight,
-                child: FloatingActionButton(
-                  heroTag: "btn1",
-                  backgroundColor: Colors.green[900],
-                  onPressed: fetchData,
-                  child: const Text('GET', style: TextStyle(fontSize: 15)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Align(
                 alignment: Alignment.bottomLeft,
                 child: FloatingActionButton(
                   heroTag: "btn2",
@@ -60,11 +46,5 @@ class _ListUsersState extends State<ListUsers> {
   );
 
   void dispose() => super.dispose();
-
-}
-
-Future<http.Response> fetchData() {
-
-  return http.get(Uri.parse(users));
 
 }

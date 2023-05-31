@@ -139,7 +139,7 @@ class _RegUserState extends State<RegUser> {
                             dateController.text = formattedDate.toString();
                           });
                         }
-                        else notDateSelected();
+                        else tastNoDateSelected();
                       },
                       style: TextStyle(fontSize: 23),
                       decoration: InputDecoration(
@@ -234,5 +234,10 @@ void toastUserError() => Fluttertoast.showToast(
 
 void createUserError() => Fluttertoast.showToast(
   msg: "Error",
+  fontSize: 20,
+);
+
+void tastNoDateSelected() => Fluttertoast.showToast(
+  msg: "No date selected",
   fontSize: 20,
 );
