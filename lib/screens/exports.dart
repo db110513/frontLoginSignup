@@ -16,3 +16,4 @@ export 'list_events.dart';
 export 'event.dart';
 export '../logos/studiogenesisLogo.dart';
 export 'register_event.dart';
+export '../models/user.dart';

@@ -2,55 +2,43 @@ import 'exports.dart';
 import 'package:http/http.dart' as http;
 
 
-String dataModelToJson(Event data) => json.encode(data.toJson());
-Event dataModelFromJson(String s) => Event.fromJson(json.decode(s));
-
-class Event {
-
-  String name;
-  String desc;
-  String eventDate;
-  String pic;
-  int price;
-  List<String> events;
-
-  Event({
-    required this.name,
-    required this.desc,
-    required this.eventDate,
-    required this.pic,
-    required this.price,
-    required this.events,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) => Event(
-    name: json["name"],
-    desc: json["desc"],
-    eventDate: json["eventDate"],
-    pic: json["pic"],
-    price: json["price"],
-    events: List<String>.from(json["events"].map((x) => x)),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "desc": desc,
-    "eventDate": eventDate,
-    "pic": pic,
-    "price": price,
-    "images": List<dynamic>.from(events.map((x) => x)),
-  };
-}
-
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
 
   State<EventList> createState() => _EventListState();
 }
 
+
 class _EventListState extends State<EventList> {
 
-  List<dynamic> events = [];
+  bool _isLoading = true;
+
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Event? event;
+
+  getData() async {
+
+    try {
+      String url = 'http://localhost:3009/events';
+      http.Response res = await http.get(Uri.parse(url));
+
+      if (res.statusCode == 200) {
+        event = Event.fromJson(json.decode(res.body));
+        _isLoading = false;
+        setState(() {});
+      }
+
+    }
+
+    catch (e) {
+      debugPrint(e.toString());
+    }
+
+  }
 
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -64,35 +52,28 @@ class _EventListState extends State<EventList> {
           backgroundColor: Colors.green[900],
         ),
 
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: FloatingActionButton(
-                  heroTag: "btn1",
-                  backgroundColor: Colors.green[900],
-                  onPressed: () {Navigator.pushNamed(context, '//event');},
-                  child: const Text('GET', style: TextStyle(fontSize: 15)),
-                ),
+      body:
+        _isLoading? const Center(child: CircularProgressIndicator())
+          :
+        ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, i) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("\$${event!.events[i].name.toString()}"),
+                  Text("\$${event!.events[i].desc.toString()}"),
+                  Text("\$${event!.events[i].eventDate.toString()}"),
+                  Text("\$${event!.events[i].pic.toString()}"),
+                  Text("\$${event!.events[i].price.toString()}"),
+                ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: FloatingActionButton(
-                  heroTag: "btn2",
-                  backgroundColor: Colors.green[900],
-                  onPressed: () {Navigator.pushNamed(context, '//event');},
-                  child: const Text('BACK', style: TextStyle(fontSize: 15)),
-                ),
-              ),
-            ),
-          ],
-        )
-
+            );
+          },
+          itemCount: event!.events.length,
+        ),
     ),
 
   );

@@ -1,31 +1,28 @@
 
-class User {
+class Event {
 
-  List<User> users;
-  String name, surname, email, birthdate, pic, password;
+  List<Event> events;
+  String name, desc, eventDate, pic, price;
 
-  User({required this.name, required this.surname, required this.email,
-    required this.birthdate, required this.pic,
-    required this.password, required this.users});
+  Event({required this.name, required this.desc, required this.eventDate,
+    required this.pic, required this.price, required this.events});
 
-  factory User.fromJson(Map<String, dynamic> json) =>
-    User(
-      users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
+  factory Event.fromJson(Map<String, dynamic> json) =>
+    Event(
+      events: List<Event>.from(json["events"].map((x) => Event.fromJson(x))),
       name: json['name'],
-      surname: json['surname'],
-      email: json['email'],
-      birthdate: json['birthdate'],
-      pic: json['pic'],
-      password: json['password'],
+      desc: json['desc'],
+      eventDate: json['eventDate'],
+      pic: json['birthdate'],
+      price: json['price'],
     );
 
   Map<String, dynamic> toJson() => {
-    'nombre' : name,
-    'apellidos' : surname,
-    'email' : email,
-    'birthdate' : birthdate,
-    'pic' : pic,
-    'password' : password,
+    'name' : name,
+    'desc' : desc,
+    'eventDate' : eventDate,
+    'birthdate' : pic,
+    'price' : price,
   };
 
 }
